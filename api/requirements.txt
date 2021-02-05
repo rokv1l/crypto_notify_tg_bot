@@ -1,0 +1,6 @@
+flask
+flask-restful
+pymongo
+beautifulsoup4
+requests
+lxml

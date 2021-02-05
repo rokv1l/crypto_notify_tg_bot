@@ -1,0 +1,45 @@
+version: '3'
+services:
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    image: api
+    container_name: api
+    restart: unless-stopped
+    tty: True
+    working_dir: /api
+    ports:
+      - "3000:3000"
+    networks:
+      - api_network
+      - bot_network
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: unless-stopped
+    tty: True
+    ports:
+      - "127.0.0.1:27017:27017"
+    networks:
+      - api_network
+
+  bot:
+    build:
+      context: .
+      dockerfile: bot/Dockerfile
+    image: bot
+    container_name: crypto_notifier
+    working_dir: /bot
+    ports:
+      - "3011:3011"
+    networks:
+      - bot_network
+
+networks:
+  api_network:
+    driver: bridge 
+  bot_network:
+    driver: bridge
